@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://deshi-mart-server.vercel.app/api",
-    // baseUrl: "http://localhost:8000/api",
+    // baseUrl: "https://deshi-mart-server.vercel.app/api",
+    baseUrl: "http://localhost:8000/api",
   }),
   tagTypes: ["category", "product", "brand"],
   endpoints: (builder) => {
@@ -15,7 +15,8 @@ export const baseApi = createApi({
 
       // 1. get brands.
       getBrands: builder.query({
-        query: () => "/brands",
+        query: (payload) =>
+          `/brand/get?offset=${payload.offset}&limit=${payload.limit}`,
         providesTags: ["brand"],
       }),
 
@@ -53,6 +54,25 @@ export const baseApi = createApi({
         }),
         invalidatesTags: ["brand"],
       }),
+
+
+      // category.
+      // 1. get categories.
+      getCategories:builder.query({
+        query: (payload) =>
+          `/category/get?offset=${payload.offset}&limit=${payload.limit}`,
+        providesTags: ["category"],
+      }),
+
+
+
+      // product.
+      // 1. get product.
+      getProduct:builder.query({
+        query: (payload) =>
+          `/product/get?offset=${payload.offset}&limit=${payload.limit}`,
+        providesTags: ["product"],
+      }),
     };
   },
 });
@@ -63,4 +83,6 @@ export const {
   useCreateBrandMutation,
   useUpdateBrandMutation,
   useDeleteBrandMutation,
+  useGetCategoriesQuery,
+  useGetProductQuery
 } = baseApi;

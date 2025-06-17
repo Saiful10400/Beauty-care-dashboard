@@ -1,6 +1,9 @@
+import { useGetBrandsQuery } from "../../redux/api";
 
 
 const Home = () => {
+    const {data}=useGetBrandsQuery({ offset: 0, limit: 10 });
+    console.log(data);
     return (
         <div>
             <h1>Home Page</h1>
