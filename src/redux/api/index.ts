@@ -22,14 +22,14 @@ export const baseApi = createApi({
 
       // 2. get brand by id.
       getBrandById: builder.query({
-        query: (id) => `/brands/${id}`,
+        query: (id) => `/brand/get/${id}`,
         providesTags: ["brand"],
       }),
 
       // 3. create brand.
       createBrand: builder.mutation({
         query: (data) => ({
-          url: "/brands",
+          url: "/brand/create",
           method: "POST",
           body: data,
         }),
@@ -39,8 +39,8 @@ export const baseApi = createApi({
       // 4. update brand.
       updateBrand: builder.mutation({
         query: ({ id, data }) => ({
-          url: `/brands/${id}`,
-          method: "PATCH",
+          url: `/brand/update/${id}`,
+          method: "PUT",
           body: data,
         }),
         invalidatesTags: ["brand"],
@@ -49,7 +49,7 @@ export const baseApi = createApi({
       // 5. delete brand.
       deleteBrand: builder.mutation({
         query: (id) => ({
-          url: `/brands/${id}`,
+          url: `/brand/delete/${id}`,
           method: "DELETE",
         }),
         invalidatesTags: ["brand"],

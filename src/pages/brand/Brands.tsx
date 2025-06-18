@@ -10,7 +10,7 @@ const Brands = () => {
         name: "brand",
         tittle: "Manage Brands",
         createRoute: "/brand/create",
-        keyValue: { Logo: "logoUrl", Name: "name",Description: "description",Edit:"edit" },
+        keyValue: { Logo: "logoUrl", Name: "name", Description: "description", Edit: "edit" },
         // keyValue: { Logo: "logoUrl", Name: "name",Description: "description","Products status":"isFeatured",Edit:"edit" },
 
     };

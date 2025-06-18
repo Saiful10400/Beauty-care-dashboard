@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCreateBrandMutation } from "../../redux/api";
+import { uploadToImgbb } from "../../utils/uploadToImgbb";
 
 type BrandFormData = {
   name: string;
@@ -18,6 +20,10 @@ export default function CreateBrand() {
   });
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [createBrand, { isLoading }] = useCreateBrandMutation();
+
+  const [uploading, setUploading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -36,26 +42,61 @@ export default function CreateBrand() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const clearForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      logoFile: null,
+      websiteUrl: "",
+      isFeatured: false,
+    });
+    setPreviewUrl(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const form = new FormData();
-    form.append("name", formData.name);
-    form.append("description", formData.description);
-    form.append("websiteUrl", formData.websiteUrl);
-    form.append("isFeatured", String(formData.isFeatured));
+
+    setUploading(true);
+    setSuccessMessage(null);
+
+    let logoUrl = "";
+
     if (formData.logoFile) {
-      form.append("logo", formData.logoFile);
+      const uploadedUrl = await uploadToImgbb(formData.logoFile);
+      if (!uploadedUrl) {
+        alert("Image upload failed. Try again.");
+        setUploading(false);
+        return;
+      }
+      logoUrl = uploadedUrl;
     }
-    console.log("Submitted:", formData);
+
+    const payload = {
+      name: formData.name,
+      description: formData.description,
+      websiteUrl: formData.websiteUrl,
+      isFeatured: formData.isFeatured,
+      logoUrl,
+    };
+
+    try {
+      await createBrand(payload).unwrap();
+      setSuccessMessage("Brand created successfully!");
+      clearForm();
+    } catch (error) {
+      alert("Failed to create brand. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
-    <div className="p-8 md:pl-16">
+    <div className="px-4 py-6 md:px-16">
       <h2 className="text-3xl font-semibold text-white mb-6">Create Brand</h2>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-[#2f3640] text-white rounded-lg shadow-xl p-6 max-w-4xl"
+        className="bg-[#2f3640] text-white rounded-lg shadow-xl p-6 w-full max-w-full md:max-w-4xl"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -66,7 +107,8 @@ export default function CreateBrand() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={uploading}
+              className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
             />
           </div>
 
@@ -78,7 +120,8 @@ export default function CreateBrand() {
               value={formData.websiteUrl}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={uploading}
+              className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
             />
           </div>
 
@@ -89,7 +132,8 @@ export default function CreateBrand() {
               value={formData.description}
               onChange={handleChange}
               rows={4}
-              className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={uploading}
+              className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
             />
           </div>
 
@@ -100,7 +144,8 @@ export default function CreateBrand() {
               name="logoFile"
               accept="image/*"
               onChange={handleChange}
-              className="w-full text-gray-200 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-800 file:text-white hover:file:bg-blue-700"
+              disabled={uploading}
+              className="w-full text-gray-200 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-800 file:text-white hover:file:bg-blue-700 disabled:opacity-50"
             />
           </div>
 
@@ -121,18 +166,50 @@ export default function CreateBrand() {
               name="isFeatured"
               checked={formData.isFeatured}
               onChange={handleChange}
-              className="h-4 w-4 bg-gray-700 border-gray-600 rounded focus:ring-blue-600"
+              disabled={uploading}
+              className="h-4 w-4 bg-gray-700 border-gray-600 rounded focus:ring-blue-600 disabled:opacity-50"
             />
             <label className="text-sm text-gray-300">Featured Brand</label>
           </div>
         </div>
 
+        {successMessage && (
+          <p className="mt-4 text-green-400 font-semibold">{successMessage}</p>
+        )}
+
         <div className="mt-6">
           <button
             type="submit"
-            className="w-full bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition"
+            disabled={isLoading || uploading}
+            className="w-full bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition disabled:opacity-50"
           >
-            Submit
+            {(isLoading || uploading) ? (
+              <>
+                <svg
+                  className="animate-spin h-5 w-5 mr-3 inline-block text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+                Submitting...
+              </>
+            ) : (
+              "Submit"
+            )}
           </button>
         </div>
       </form>

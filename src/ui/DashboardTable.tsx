@@ -48,7 +48,7 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
   const typeFormate = (key: string, item: any) => {
     if (key === "logoUrl" || key === "imageUrl") {
       return (
-        <td className="border-none lg:py-5 pl-4" key={key}>
+        <td className="py-3 px-2 sm:px-4" key={key}>
           <img
             className="w-[60px] h-[40px] rounded-md object-contain"
             src={item[key] || "demoAvatar"}
@@ -59,7 +59,7 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
     }
     if (key === "imagesArr") {
       return (
-        <td className="border-none lg:py-5 pl-4" key={key}>
+        <td className="py-3 px-2 sm:px-4" key={key}>
           <img
             className="w-[60px] h-[40px] rounded-md object-contain"
             src={item.images[0] || "demoAvatar"}
@@ -69,13 +69,13 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
       );
     } else if (key === "isFeatured") {
       return (
-        <td className="border-none lg:py-5 pl-4" key={key}>
+        <td className="py-3 px-2 sm:px-4" key={key}>
           {item[key] ? (
-            <span className="bg-green-600 rounded-md px-2 py-1 font-medium text-white text-sm">
+            <span className="bg-green-600 rounded-md px-2 py-1 font-medium text-white text-xs sm:text-sm">
               On live
             </span>
           ) : (
-            <span className="bg-red-500 rounded-md px-2 py-1 font-medium text-white text-sm">
+            <span className="bg-red-500 rounded-md px-2 py-1 font-medium text-white text-xs sm:text-sm">
               Hidden
             </span>
           )}
@@ -83,19 +83,19 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
       );
     } else if (key === "edit") {
       return (
-        <td className="border-none lg:py-5 pl-4" key={key}>
-          <TableEditCell />
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          <TableEditCell target="brand" id={item._id} />
         </td>
       );
     } else if (key === "updated" || key === "created") {
       return (
-        <td className="border-none lg:py-5 pl-4" key={key}>
+        <td className="py-3 px-2 sm:px-4" key={key}>
           {formateDate(item[key])}
         </td>
       );
     } else {
       return (
-        <td className="border-none lg:py-5 pl-4" key={key}>
+        <td className="py-3 px-2 sm:px-4 text-xs sm:text-sm" key={key}>
           {item[key]}
         </td>
       );
@@ -105,7 +105,7 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
   return (
     <div className="border border-gray-700 bg-[#1e293b] rounded-lg pb-6 text-white shadow-md">
       {/* Header */}
-      <div className="flex justify-between border-b border-gray-700 py-4 lg:px-5">
+      <div className="flex justify-between border-b border-gray-700 py-4 px-4 sm:px-5">
         <h1 className="text-base font-bold">{data.tittle}</h1>
         {data.mode !== "admin" && (
           <PrimaryButton
@@ -118,14 +118,14 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
       </div>
 
       {/* Table */}
-      <div className="lg:px-5 overflow-auto">
-        <table className="w-full text-base">
+      <div className="w-full overflow-x-auto px-4 sm:px-5">
+        <table className="w-full min-w-[600px] text-xs sm:text-sm">
           <thead>
             <tr className="border border-gray-700 bg-[#334155] text-gray-200">
               {headers.map((item) => (
                 <th
                   key={item}
-                  className="h-12 px-4 border-none text-left font-semibold"
+                  className="px-2 sm:px-4 py-2 border-none text-left font-semibold"
                 >
                   {item}
                 </th>
@@ -144,17 +144,21 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
             ))}
           </tbody>
         </table>
+
+        <p className="text-xs text-gray-400 mt-2 sm:hidden text-center">
+          Swipe left/right to view full table →
+        </p>
       </div>
 
       {/* Footer / Pagination */}
-      <div className="lg:px-5 text-sm flex justify-between items-center mt-6">
+      <div className="px-4 sm:px-5 text-sm flex flex-col sm:flex-row justify-between items-start sm:items-center mt-6 gap-4 sm:gap-0">
         <h1 className="font-semibold">
           {(currentPage - 1) * 10 +
             (fetchedData?.data?.data?.result?.length || 0)}{" "}
           of {fetchedData?.data?.data?.total} row(s)
         </h1>
 
-        <div className="flex items-center gap-10">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <h1 className="font-bold">
             Page {currentPage} of {totalPage}
           </h1>

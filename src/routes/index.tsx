@@ -8,6 +8,7 @@ import CreateCategory from "../pages/category/CreateCategory";
 import Products from "../pages/product/Products";
 import CreateProduct from "../pages/product/CreateProduct";
 import General from "../pages/general/General";
+import EditBrand from "../pages/brand/EditBrand";
 
 const routes = createBrowserRouter([
     {
@@ -17,6 +18,7 @@ const routes = createBrowserRouter([
                 path: "brand", children: [
                     { index: true, element: <Brands /> },
                     { path: "create", element: <CreateBrand /> },
+                    { path: "edit/:id", element: <EditBrand /> },
                 ]
             },
             {
