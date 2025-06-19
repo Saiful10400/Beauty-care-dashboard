@@ -28,19 +28,25 @@ export default function CreateBrand() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value, type, checked, files } = e.target as any;
+    const { name, value, type } = e.target;
 
-    if (name === "logoFile" && files.length > 0) {
-      const file = files[0];
+    if (type === "file" && e.target instanceof HTMLInputElement && e.target.files?.length) {
+      const file = e.target.files[0];
       setFormData({ ...formData, logoFile: file });
       setPreviewUrl(URL.createObjectURL(file));
+    } else if (type === "checkbox" && e.target instanceof HTMLInputElement) {
+      setFormData({
+        ...formData,
+        [name]: e.target.checked,
+      });
     } else {
       setFormData({
         ...formData,
-        [name]: type === "checkbox" ? checked : value,
+        [name]: value,
       });
     }
   };
+
 
   const clearForm = () => {
     setFormData({
@@ -83,7 +89,7 @@ export default function CreateBrand() {
       await createBrand(payload).unwrap();
       setSuccessMessage("Brand created successfully!");
       clearForm();
-    } catch (error) {
+    } catch {
       alert("Failed to create brand. Please try again.");
     } finally {
       setUploading(false);

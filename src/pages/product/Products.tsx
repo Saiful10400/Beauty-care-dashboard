@@ -10,8 +10,8 @@ const Products = () => {
         name: "product",
         tittle: "Manage Products",
         createRoute: "/product/create",
-        keyValue: { Image: "imagesArr", Name: "name", Description: "shortDescription",Price:"price","Discount Price":"discountPrice", Edit: "edit" },
-    
+        keyValue: { Image: "imagesArr", Name: "name", Description: "shortDescription", Price: "price", "Discount Price": "discountPrice", Ratings: "rating", Edit: "edit" },
+
 
     };
 

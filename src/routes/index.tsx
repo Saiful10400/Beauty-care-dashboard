@@ -9,6 +9,8 @@ import Products from "../pages/product/Products";
 import CreateProduct from "../pages/product/CreateProduct";
 import General from "../pages/general/General";
 import EditBrand from "../pages/brand/EditBrand";
+import EditCategory from "../pages/category/EditCategory";
+import EditProduct from "../pages/product/EditProduct";
 
 const routes = createBrowserRouter([
     {
@@ -25,12 +27,14 @@ const routes = createBrowserRouter([
                 path: "category", children: [
                     { index: true, element: <Categoryes /> },
                     { path: "create", element: <CreateCategory /> },
+                    { path: "edit/:id", element: <EditCategory /> },
                 ]
             },
             {
                 path: "product", children: [
                     { index: true, element: <Products /> },
                     { path: "create", element: <CreateProduct /> },
+                    {path: "edit/:id", element: <EditProduct /> },
                 ]
             },
             {

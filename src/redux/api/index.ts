@@ -55,23 +55,84 @@ export const baseApi = createApi({
         invalidatesTags: ["brand"],
       }),
 
-
       // category.
       // 1. get categories.
-      getCategories:builder.query({
+      getCategories: builder.query({
         query: (payload) =>
           `/category/get?offset=${payload.offset}&limit=${payload.limit}`,
         providesTags: ["category"],
       }),
+      // 2. create brand.
+      createCategory: builder.mutation({
+        query: (data) => ({
+          url: "/category/create",
+          method: "POST",
+          body: data,
+        }),
+        invalidatesTags: ["brand"],
+      }),
 
+      // 3. get brand by id.
+      getCategoryById: builder.query({
+        query: (id) => `/category/get/${id}`,
+        providesTags: ["brand"],
+      }),
+      // 4. update category.
+      updateCategory: builder.mutation({
+        query: ({ id, data }) => ({
+          url: `/category/update/${id}`,
+          method: "PUT",
+          body: data,
+        }),
+        invalidatesTags: ["category"],
+      }),
 
+      // 5. delete category.
+      deleteCategory: builder.mutation({
+        query: (id) => ({
+          url: `/category/delete/${id}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["category"],
+      }),
 
       // product.
       // 1. get product.
-      getProduct:builder.query({
+      getProduct: builder.query({
         query: (payload) =>
           `/product/get?offset=${payload.offset}&limit=${payload.limit}`,
         providesTags: ["product"],
+      }),
+      // 2. create brand.
+      createProduct: builder.mutation({
+        query: (data) => ({
+          url: "/product/create",
+          method: "POST",
+          body: data,
+        }),
+        invalidatesTags: ["product"],
+      }),
+      // 3. get product by id.
+      getProductById: builder.query({
+        query: (id) => `/product/get/${id}`,
+        providesTags: ["product"],
+      }),
+      // 5. delete product.
+      deleteProduct: builder.mutation({
+        query: (id) => ({
+          url: `/product/delete/${id}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["product"],
+      }),
+      // 6. update category.
+      updateProduct: builder.mutation({
+        query: ({ id, data }) => ({
+          url: `/product/update/${id}`,
+          method: "PUT",
+          body: data,
+        }),
+        invalidatesTags: ["product"],
       }),
     };
   },
@@ -84,5 +145,13 @@ export const {
   useUpdateBrandMutation,
   useDeleteBrandMutation,
   useGetCategoriesQuery,
-  useGetProductQuery
+  useGetProductQuery,
+  useCreateCategoryMutation,
+  useGetCategoryByIdQuery,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+  useCreateProductMutation,
+  useGetProductByIdQuery,
+  useDeleteProductMutation,
+  useUpdateProductMutation,
 } = baseApi;

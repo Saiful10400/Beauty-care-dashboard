@@ -1,6 +1,6 @@
 import { Trash2, Pencil } from "lucide-react";
 import { useNavigate } from "react-router"; // Fixed import source
-import { useDeleteBrandMutation } from "../redux/api";
+import { useDeleteBrandMutation, useDeleteCategoryMutation } from "../redux/api";
 
 type TableEditCellProps = {
     target: string;
@@ -16,19 +16,33 @@ const TableEditCell = ({ target, id }: TableEditCellProps) => {
     };
 
     const [deleteBrand] = useDeleteBrandMutation();
+    const [deleteCategory] = useDeleteCategoryMutation();
     // delete handle.
     const handleDelete = () => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this brand?");
+        const confirmDelete = window.confirm(`Are you sure you want to delete this ${target}?`);
         if (!confirmDelete) return;
 
-        deleteBrand(id)
-            .unwrap()
-            .then(() => {
-                alert("Brand deleted successfully");
-            })
-            .catch(() => {
-                alert("Failed to delete brand");
-            });
+        if (target === "brand") {
+            deleteBrand(id)
+                .unwrap()
+                .then(() => {
+                    // Optionally, you can add a success message or redirect
+                    console.log(`${target} deleted successfully`);
+                })
+                .catch((error) => {
+                    // Handle error, e.g., show an error message
+                    console.error(`Failed to delete ${target}:`, error);
+                });
+        } else if (target === "category") {
+            deleteCategory(id)
+                .unwrap()
+                .then(() => {
+                    alert(`${target} deleted successfully`);
+                })
+                .catch(() => {
+                    alert(`Failed to delete ${target}. Please try again.`);
+                });
+        }
     };
 
 

@@ -81,13 +81,29 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
           )}
         </td>
       );
-    } else if (key === "edit") {
+    }
+    else if (key === "edit" && data.name === "brand") {
       return (
         <td className="py-3 px-2 sm:px-4" key={key}>
           <TableEditCell target="brand" id={item._id} />
         </td>
       );
-    } else if (key === "updated" || key === "created") {
+    }
+    else if (key === "edit" && data.name === "category") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          <TableEditCell target="category" id={item._id} />
+        </td>
+      );
+    }
+    else if (key === "edit" && data.name === "product") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          <TableEditCell target="product" id={item._id} />
+        </td>
+      );
+    }
+    else if (key === "updated" || key === "created") {
       return (
         <td className="py-3 px-2 sm:px-4" key={key}>
           {formateDate(item[key])}
