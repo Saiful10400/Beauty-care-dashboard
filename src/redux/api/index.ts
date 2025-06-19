@@ -6,7 +6,7 @@ export const baseApi = createApi({
     // baseUrl: "https://deshi-mart-server.vercel.app/api",
     baseUrl: "http://localhost:8000/api",
   }),
-  tagTypes: ["category", "product", "brand"],
+  tagTypes: ["category", "product", "brand", "general"],
   endpoints: (builder) => {
     return {
       // all apis here.
@@ -134,6 +134,22 @@ export const baseApi = createApi({
         }),
         invalidatesTags: ["product"],
       }),
+
+      // general.
+      // 1. get general.
+      getGeneral: builder.query({
+        query: () => `/general/get`,
+        providesTags: ["general"],
+      }),
+      // 4. update general.
+      updateGeneral: builder.mutation({
+        query: (data ) => ({
+          url: `/general/update`,
+          method: "PUT",
+          body: data,
+        }),
+        invalidatesTags: ["general"],
+      }),
     };
   },
 });
@@ -154,4 +170,6 @@ export const {
   useGetProductByIdQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useGetGeneralQuery,
+  useUpdateGeneralMutation,
 } = baseApi;

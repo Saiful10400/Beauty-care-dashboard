@@ -1,6 +1,6 @@
 import { Trash2, Pencil } from "lucide-react";
 import { useNavigate } from "react-router"; // Fixed import source
-import { useDeleteBrandMutation, useDeleteCategoryMutation } from "../redux/api";
+import { useDeleteBrandMutation, useDeleteCategoryMutation, useDeleteProductMutation } from "../redux/api";
 
 type TableEditCellProps = {
     target: string;
@@ -17,6 +17,7 @@ const TableEditCell = ({ target, id }: TableEditCellProps) => {
 
     const [deleteBrand] = useDeleteBrandMutation();
     const [deleteCategory] = useDeleteCategoryMutation();
+    const [deleteProduct] = useDeleteProductMutation();
     // delete handle.
     const handleDelete = () => {
         const confirmDelete = window.confirm(`Are you sure you want to delete this ${target}?`);
@@ -43,7 +44,17 @@ const TableEditCell = ({ target, id }: TableEditCellProps) => {
                     alert(`Failed to delete ${target}. Please try again.`);
                 });
         }
-    };
+        else if (target === "product") {
+            deleteProduct(id)
+                .unwrap()
+                .then(() => {
+                    alert(`${target} deleted successfully`);
+                })
+                .catch(() => {
+                    alert(`Failed to delete ${target}. Please try again.`);
+                });
+        };
+    }
 
 
     return (
