@@ -13,6 +13,9 @@ import EditCategory from "../pages/category/EditCategory";
 import EditProduct from "../pages/product/EditProduct";
 import Banner from "../pages/banner/Banner";
 import CreateBanner from "../pages/banner/CreateBanner";
+import Order from "../pages/order/Order";
+import CreateReview from "../pages/review(admin)/CreateReview";
+import Review from "../pages/review(admin)/Review";
 
 const routes = createBrowserRouter([
     {
@@ -44,6 +47,18 @@ const routes = createBrowserRouter([
                     { index: true, element: <Products /> },
                     { path: "create", element: <CreateProduct /> },
                     { path: "edit/:id", element: <EditProduct /> },
+                ]
+            },
+            {
+                path: "order", children: [
+                    { index: true, element: <Order /> },
+                ]
+            },
+            {
+                path: "review", children: [
+                    { index: true, element: <Review /> },
+                    { path: "create", element: <CreateReview /> },
+
                 ]
             },
             {

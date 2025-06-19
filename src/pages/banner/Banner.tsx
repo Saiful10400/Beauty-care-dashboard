@@ -45,7 +45,7 @@ export default function BannerManage() {
                 {localBanners.map((banner) => (
                     <div
                         key={banner._id}
-                        className="bg-[#2f3640] rounded-lg p-4 flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6"
+                        className="bg-[#2f3640] rounded-lg p-4 flex  flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6"
                     >
                         {/* Image Preview */}
                         <img

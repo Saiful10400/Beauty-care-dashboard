@@ -66,7 +66,6 @@ const menu: MenuItem[] = [
     name: "Order",
     icon: <ClipboardList className="w-5 h-5" />,
     children: [
-      { name: "Create Order", path: "/order/create", icon: <PlusCircle className="w-4 h-4" /> },
       { name: "Orders", path: "/order", icon: <Table className="w-4 h-4" /> },
     ],
   },
