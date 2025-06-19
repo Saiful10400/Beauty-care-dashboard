@@ -11,11 +11,20 @@ import General from "../pages/general/General";
 import EditBrand from "../pages/brand/EditBrand";
 import EditCategory from "../pages/category/EditCategory";
 import EditProduct from "../pages/product/EditProduct";
+import Banner from "../pages/banner/Banner";
+import CreateBanner from "../pages/banner/CreateBanner";
 
 const routes = createBrowserRouter([
     {
         path: "/", element: <Root />, children: [
             { index: true, element: <Home /> },
+            {
+                path: "banner", children: [
+                    { index: true, element: <Banner /> },
+                    { path: "create", element: <CreateBanner /> },
+
+                ]
+            },
             {
                 path: "brand", children: [
                     { index: true, element: <Brands /> },
@@ -34,7 +43,7 @@ const routes = createBrowserRouter([
                 path: "product", children: [
                     { index: true, element: <Products /> },
                     { path: "create", element: <CreateProduct /> },
-                    {path: "edit/:id", element: <EditProduct /> },
+                    { path: "edit/:id", element: <EditProduct /> },
                 ]
             },
             {

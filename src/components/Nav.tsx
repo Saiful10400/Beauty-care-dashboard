@@ -9,6 +9,9 @@ import {
   Table,
   Menu,
   X,
+  Image,
+  ClipboardList,
+  Star,
 } from "lucide-react";
 import { useState, type JSX } from "react";
 import { NavLink } from "react-router";
@@ -21,11 +24,10 @@ type MenuItem = {
 
 const menu: MenuItem[] = [
   {
-    name: "Brand",
-    icon: <Tags className="w-5 h-5" />,
+    name: "Settings",
+    icon: <Settings className="w-5 h-5" />,
     children: [
-      { name: "Create Brand", path: "/brand/create", icon: <PlusCircle className="w-4 h-4" /> },
-      { name: "Brands", path: "/brand", icon: <Table className="w-4 h-4" /> },
+      { name: "General", path: "/settings/general", icon: <Settings className="w-4 h-4" /> },
     ],
   },
   {
@@ -37,6 +39,14 @@ const menu: MenuItem[] = [
     ],
   },
   {
+    name: "Brand",
+    icon: <Tags className="w-5 h-5" />,
+    children: [
+      { name: "Create Brand", path: "/brand/create", icon: <PlusCircle className="w-4 h-4" /> },
+      { name: "Brands", path: "/brand", icon: <Table className="w-4 h-4" /> },
+    ],
+  },
+  {
     name: "Product",
     icon: <ShoppingBag className="w-5 h-5" />,
     children: [
@@ -45,10 +55,27 @@ const menu: MenuItem[] = [
     ],
   },
   {
-    name: "Settings",
-    icon: <Settings className="w-5 h-5" />,
+    name: "Banner",
+    icon: <Image className="w-5 h-5" />,
     children: [
-      { name: "General", path: "/settings/general", icon: <Settings className="w-4 h-4" /> },
+      { name: "Create Banner", path: "/banner/create", icon: <PlusCircle className="w-4 h-4" /> },
+      { name: "Banners", path: "/banner", icon: <Table className="w-4 h-4" /> },
+    ],
+  },
+  {
+    name: "Order",
+    icon: <ClipboardList className="w-5 h-5" />,
+    children: [
+      { name: "Create Order", path: "/order/create", icon: <PlusCircle className="w-4 h-4" /> },
+      { name: "Orders", path: "/order", icon: <Table className="w-4 h-4" /> },
+    ],
+  },
+  {
+    name: "Review",
+    icon: <Star className="w-5 h-5" />,
+    children: [
+      { name: "Create Review", path: "/review/create", icon: <PlusCircle className="w-4 h-4" /> },
+      { name: "Reviews", path: "/review", icon: <Table className="w-4 h-4" /> },
     ],
   },
 ];
@@ -63,7 +90,7 @@ export default function Nav() {
 
   return (
     <>
-      {/* Mobile menu button */}
+      {/* Mobile top bar */}
       <div className="md:hidden flex items-center justify-between bg-gray-900 text-white px-4 py-3 shadow">
         <h1 className="text-lg font-bold">Admin Dashboard</h1>
         <button onClick={() => setSidebarOpen(true)}>
@@ -71,7 +98,7 @@ export default function Nav() {
         </button>
       </div>
 
-      {/* Backdrop for mobile */}
+      {/* Backdrop */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
@@ -86,18 +113,13 @@ export default function Nav() {
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
         `}
       >
-        {/* Header */}
         <div className="p-6 text-xl font-bold border-b border-gray-800 flex items-center justify-between md:block">
           <span>Admin Dashboard</span>
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="md:hidden text-white"
-          >
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-white">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Nav menu */}
         <nav className="flex-1 p-4 overflow-y-auto space-y-1">
           {menu.map((item) => (
             <div key={item.name}>
@@ -124,10 +146,9 @@ export default function Nav() {
                       to={sub.path}
                       onClick={() => setSidebarOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${
-                          isActive
-                            ? "bg-gray-800 text-white"
-                            : "text-gray-300 hover:text-white hover:bg-gray-800"
+                        `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${isActive
+                          ? "bg-gray-800 text-white"
+                          : "text-gray-300 hover:text-white hover:bg-gray-800"
                         }`
                       }
                     >

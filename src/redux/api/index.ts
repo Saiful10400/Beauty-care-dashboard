@@ -6,170 +6,217 @@ export const baseApi = createApi({
     // baseUrl: "https://deshi-mart-server.vercel.app/api",
     baseUrl: "http://localhost:8000/api",
   }),
-  tagTypes: ["category", "product", "brand", "general"],
-  endpoints: (builder) => {
-    return {
-      // all apis here.
+  tagTypes: ["category", "product", "brand", "general", "banner"],
 
-      // brand.
+  endpoints: (builder) => ({
+    // ======================== Brand ========================
 
-      // 1. get brands.
-      getBrands: builder.query({
-        query: (payload) =>
-          `/brand/get?offset=${payload.offset}&limit=${payload.limit}`,
-        providesTags: ["brand"],
-      }),
+    // Get all brands
+    getBrands: builder.query({
+      query: ({ offset, limit }) =>
+        `/brand/get?offset=${offset}&limit=${limit}`,
+      providesTags: ["brand"],
+    }),
 
-      // 2. get brand by id.
-      getBrandById: builder.query({
-        query: (id) => `/brand/get/${id}`,
-        providesTags: ["brand"],
-      }),
+    // Get brand by ID
+    getBrandById: builder.query({
+      query: (id) => `/brand/get/${id}`,
+      providesTags: ["brand"],
+    }),
 
-      // 3. create brand.
-      createBrand: builder.mutation({
-        query: (data) => ({
-          url: "/brand/create",
-          method: "POST",
-          body: data,
-        }),
-        invalidatesTags: ["brand"],
+    // Create brand
+    createBrand: builder.mutation({
+      query: (data) => ({
+        url: "/brand/create",
+        method: "POST",
+        body: data,
       }),
+      invalidatesTags: ["brand"],
+    }),
 
-      // 4. update brand.
-      updateBrand: builder.mutation({
-        query: ({ id, data }) => ({
-          url: `/brand/update/${id}`,
-          method: "PUT",
-          body: data,
-        }),
-        invalidatesTags: ["brand"],
+    // Update brand
+    updateBrand: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/brand/update/${id}`,
+        method: "PUT",
+        body: data,
       }),
+      invalidatesTags: ["brand"],
+    }),
 
-      // 5. delete brand.
-      deleteBrand: builder.mutation({
-        query: (id) => ({
-          url: `/brand/delete/${id}`,
-          method: "DELETE",
-        }),
-        invalidatesTags: ["brand"],
+    // Delete brand
+    deleteBrand: builder.mutation({
+      query: (id) => ({
+        url: `/brand/delete/${id}`,
+        method: "DELETE",
       }),
+      invalidatesTags: ["brand"],
+    }),
 
-      // category.
-      // 1. get categories.
-      getCategories: builder.query({
-        query: (payload) =>
-          `/category/get?offset=${payload.offset}&limit=${payload.limit}`,
-        providesTags: ["category"],
-      }),
-      // 2. create brand.
-      createCategory: builder.mutation({
-        query: (data) => ({
-          url: "/category/create",
-          method: "POST",
-          body: data,
-        }),
-        invalidatesTags: ["brand"],
-      }),
+    // ======================== Category ========================
 
-      // 3. get brand by id.
-      getCategoryById: builder.query({
-        query: (id) => `/category/get/${id}`,
-        providesTags: ["brand"],
-      }),
-      // 4. update category.
-      updateCategory: builder.mutation({
-        query: ({ id, data }) => ({
-          url: `/category/update/${id}`,
-          method: "PUT",
-          body: data,
-        }),
-        invalidatesTags: ["category"],
-      }),
+    // Get all categories
+    getCategories: builder.query({
+      query: ({ offset, limit }) =>
+        `/category/get?offset=${offset}&limit=${limit}`,
+      providesTags: ["category"],
+    }),
 
-      // 5. delete category.
-      deleteCategory: builder.mutation({
-        query: (id) => ({
-          url: `/category/delete/${id}`,
-          method: "DELETE",
-        }),
-        invalidatesTags: ["category"],
-      }),
+    // Get category by ID
+    getCategoryById: builder.query({
+      query: (id) => `/category/get/${id}`,
+      providesTags: ["category"],
+    }),
 
-      // product.
-      // 1. get product.
-      getProduct: builder.query({
-        query: (payload) =>
-          `/product/get?offset=${payload.offset}&limit=${payload.limit}`,
-        providesTags: ["product"],
+    // Create category
+    createCategory: builder.mutation({
+      query: (data) => ({
+        url: "/category/create",
+        method: "POST",
+        body: data,
       }),
-      // 2. create brand.
-      createProduct: builder.mutation({
-        query: (data) => ({
-          url: "/product/create",
-          method: "POST",
-          body: data,
-        }),
-        invalidatesTags: ["product"],
-      }),
-      // 3. get product by id.
-      getProductById: builder.query({
-        query: (id) => `/product/get/${id}`,
-        providesTags: ["product"],
-      }),
-      // 5. delete product.
-      deleteProduct: builder.mutation({
-        query: (id) => ({
-          url: `/product/delete/${id}`,
-          method: "DELETE",
-        }),
-        invalidatesTags: ["product"],
-      }),
-      // 6. update category.
-      updateProduct: builder.mutation({
-        query: ({ id, data }) => ({
-          url: `/product/update/${id}`,
-          method: "PUT",
-          body: data,
-        }),
-        invalidatesTags: ["product"],
-      }),
+      invalidatesTags: ["category"],
+    }),
 
-      // general.
-      // 1. get general.
-      getGeneral: builder.query({
-        query: () => `/general/get`,
-        providesTags: ["general"],
+    // Update category
+    updateCategory: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/category/update/${id}`,
+        method: "PUT",
+        body: data,
       }),
-      // 4. update general.
-      updateGeneral: builder.mutation({
-        query: (data ) => ({
-          url: `/general/update`,
-          method: "PUT",
-          body: data,
-        }),
-        invalidatesTags: ["general"],
+      invalidatesTags: ["category"],
+    }),
+
+    // Delete category
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/category/delete/${id}`,
+        method: "DELETE",
       }),
-    };
-  },
+      invalidatesTags: ["category"],
+    }),
+
+    // ======================== Product ========================
+
+    // Get all products
+    getProduct: builder.query({
+      query: ({ offset, limit }) =>
+        `/product/get?offset=${offset}&limit=${limit}`,
+      providesTags: ["product"],
+    }),
+
+    // Get product by ID
+    getProductById: builder.query({
+      query: (id) => `/product/get/${id}`,
+      providesTags: ["product"],
+    }),
+
+    // Create product
+    createProduct: builder.mutation({
+      query: (data) => ({
+        url: "/product/create",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["product"],
+    }),
+
+    // Update product
+    updateProduct: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/product/update/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["product"],
+    }),
+
+    // Delete product
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/product/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["product"],
+    }),
+
+    // ======================== General Settings ========================
+
+    // Get general settings
+    getGeneral: builder.query({
+      query: () => `/general/get`,
+      providesTags: ["general"],
+    }),
+
+    // Update general settings
+    updateGeneral: builder.mutation({
+      query: (data) => ({
+        url: `/general/update`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["general"],
+    }),
+
+    // ======================== Banner ========================
+
+    // Get general settings
+    getBanner: builder.query({
+      query: () => `/banner/get`,
+      providesTags: ["banner"],
+    }),
+
+    // Update general settings
+    updateBanner: builder.mutation({
+      query: (data) => ({
+        url: `/banner/update/${data.id }`,
+        method: "PUT",
+        body: data.data,
+      }),
+      invalidatesTags: ["banner"],
+    }),
+    // Create product
+    createBanner: builder.mutation({
+      query: (data) => ({
+        url: "/banner/create",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["product"],
+    }),
+  }),
 });
 
+// Export hooks
 export const {
+  // Brand
   useGetBrandsQuery,
   useGetBrandByIdQuery,
   useCreateBrandMutation,
   useUpdateBrandMutation,
   useDeleteBrandMutation,
+
+  // Category
   useGetCategoriesQuery,
-  useGetProductQuery,
-  useCreateCategoryMutation,
   useGetCategoryByIdQuery,
+  useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
-  useCreateProductMutation,
+
+  // Product
+  useGetProductQuery,
   useGetProductByIdQuery,
-  useDeleteProductMutation,
+  useCreateProductMutation,
   useUpdateProductMutation,
+  useDeleteProductMutation,
+
+  // General
   useGetGeneralQuery,
   useUpdateGeneralMutation,
+
+  // Banner
+  useGetBannerQuery,
+  useUpdateBannerMutation,
+  useCreateBannerMutation,
 } = baseApi;
