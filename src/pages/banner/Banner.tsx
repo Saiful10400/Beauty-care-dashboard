@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGetBannerQuery, useUpdateBannerMutation } from "../../redux/api"; // Adjust your hooks import
+import type { TBanner } from "../../types";
 
 export default function BannerManage() {
     const { data: banners, isLoading, isError } = useGetBannerQuery(null);
@@ -15,7 +16,7 @@ export default function BannerManage() {
     const toggleActive = async (id: string, currentStatus: boolean) => {
         try {
             await updateBanner({ id, data: { isActive: !currentStatus } }).unwrap();
-            setLocalBanners((prev) =>
+            setLocalBanners((prev:TBanner[]) =>
                 prev.map((banner) =>
                     banner._id === id ? { ...banner, isActive: !currentStatus } : banner
                 )
@@ -42,7 +43,7 @@ export default function BannerManage() {
             <h1 className="text-3xl font-bold text-white mb-8">Manage Banners</h1>
 
             <div className="space-y-6">
-                {localBanners.map((banner) => (
+                {localBanners.map((banner:TBanner) => (
                     <div
                         key={banner._id}
                         className="bg-[#2f3640] rounded-lg p-4 flex  flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6"

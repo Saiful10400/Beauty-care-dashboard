@@ -14,8 +14,8 @@ import EditProduct from "../pages/product/EditProduct";
 import Banner from "../pages/banner/Banner";
 import CreateBanner from "../pages/banner/CreateBanner";
 import Order from "../pages/order/Order";
-import CreateReview from "../pages/review(admin)/CreateReview";
-import Review from "../pages/review(admin)/Review";
+import CreateReview from "../pages/facebook-reviews(admin)/CreateReview";
+import Review from "../pages/facebook-reviews(admin)/Review";
 
 const routes = createBrowserRouter([
     {

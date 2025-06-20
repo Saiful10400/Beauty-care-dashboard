@@ -3,10 +3,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://deshi-mart-server.vercel.app/api",
-    baseUrl: "http://localhost:8000/api",
+    baseUrl: "https://kbeauty-touch-server.vercel.app/api",
+    // baseUrl: "http://localhost:8000/api",
   }),
-  tagTypes: ["category", "product", "brand", "general", "banner"],
+  tagTypes: [
+    "category",
+    "product",
+    "brand",
+    "general",
+    "banner",
+    "facebook-reveiw",
+  ],
 
   endpoints: (builder) => ({
     // ======================== Brand ========================
@@ -170,7 +177,7 @@ export const baseApi = createApi({
     // Update general settings
     updateBanner: builder.mutation({
       query: (data) => ({
-        url: `/banner/update/${data.id }`,
+        url: `/banner/update/${data.id}`,
         method: "PUT",
         body: data.data,
       }),
@@ -184,6 +191,33 @@ export const baseApi = createApi({
         body: data,
       }),
       invalidatesTags: ["product"],
+    }),
+
+    // ======================== Facebook reviews ========================
+
+    // Get facebook reviews
+    getFacebookReviews: builder.query({
+      query: () => `/facebook-review/get`,
+      providesTags: ["facebook-reveiw"],
+    }),
+
+    // Update general settings
+    deleteFacebookReview: builder.mutation({
+      query: ({id}) => ({
+        url: `/facebook-review/delete/${id}`,
+        method: "DELETE",
+       
+      }),
+      invalidatesTags: ["facebook-reveiw"],
+    }),
+    // Create product
+    createFacebookReview: builder.mutation({
+      query: (data) => ({
+        url: "/facebook-review/create",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["facebook-reveiw"],
     }),
   }),
 });
@@ -219,4 +253,9 @@ export const {
   useGetBannerQuery,
   useUpdateBannerMutation,
   useCreateBannerMutation,
+
+  // facebook-review
+  useGetFacebookReviewsQuery,
+  useCreateFacebookReviewMutation,
+  useDeleteFacebookReviewMutation,
 } = baseApi;
