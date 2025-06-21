@@ -90,7 +90,7 @@ export default function Nav() {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="md:hidden flex items-center justify-between bg-gray-900 text-white px-4 py-3 shadow">
+      <div className="md:hidden sticky top-0 z-10 flex items-center justify-between bg-gray-900 text-white px-4 py-3 shadow">
         <h1 className="text-lg font-bold">Admin Dashboard</h1>
         <button onClick={() => setSidebarOpen(true)}>
           <Menu className="w-6 h-6" />

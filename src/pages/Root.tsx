@@ -8,7 +8,7 @@ const Root = () => {
             <Nav />
 
             {/* Main Content Area */}
-            <main className="flex-1 bg-gray-600 p-4 overflow-y-auto">
+            <main className="flex-1 bg-gray-600 px-1 md:px-4 py-4 overflow-y-auto">
                 <Outlet />
             </main>
         </div>
