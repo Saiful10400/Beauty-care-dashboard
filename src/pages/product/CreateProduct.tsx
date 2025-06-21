@@ -2,6 +2,7 @@ import { useState } from "react";
 import { uploadToImgbb } from "../../utils/uploadToImgbb";
 import { useCreateProductMutation, useGetBrandsQuery, useGetCategoriesQuery } from "../../redux/api";
 import generateSlug from "../../utils/generateSlug";
+import { Editor, type EditorTextChangeEvent } from "primereact/editor";
 
 type ProductFormData = {
     name: string;
@@ -14,6 +15,7 @@ type ProductFormData = {
     inStock: boolean;
     imageFiles: File[];
     tags: string;
+    gender: "male" | "female" | "";
 };
 
 export default function CreateProduct() {
@@ -25,9 +27,10 @@ export default function CreateProduct() {
         brandId: "",
         categoryId: "",
         price: 0,
-        inStock: true,
+        inStock: false,
         imageFiles: [],
         tags: "",
+        gender: "",
     });
 
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
@@ -40,6 +43,7 @@ export default function CreateProduct() {
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
+
         const { name, value, type } = e.target;
 
         if (type === "file" && e.target instanceof HTMLInputElement && e.target.files?.length) {
@@ -53,9 +57,17 @@ export default function CreateProduct() {
             if (name === "name") {
                 updatedFormData.slug = generateSlug(value);
             }
+
+
             setFormData(updatedFormData);
         }
+
     };
+
+    // handle text editor.
+    const hadleTextEditor = (e: EditorTextChangeEvent) => {
+        setFormData({ ...formData, description: e.htmlValue || "" })
+    }
 
     const clearForm = () => {
         setFormData({
@@ -69,6 +81,7 @@ export default function CreateProduct() {
             inStock: true,
             imageFiles: [],
             tags: "",
+            gender: "male",
         });
         setPreviewUrls([]);
     };
@@ -98,6 +111,7 @@ export default function CreateProduct() {
             inStock: formData.inStock,
             images: imageUrls,
             tags: formData.tags.split(",").map(tag => tag.trim()),
+            gender: formData.gender,
         };
 
         try {
@@ -154,7 +168,9 @@ export default function CreateProduct() {
                         >
                             <option value="">Select Brand</option>
                             {brandData?.data?.result?.map((brand: any) => (
-                                <option key={brand._id} value={brand._id}>{brand.name}</option>
+                                <option key={brand._id} value={brand._id}>
+                                    {brand.name}
+                                </option>
                             ))}
                         </select>
                     </div>
@@ -170,13 +186,15 @@ export default function CreateProduct() {
                         >
                             <option value="">Select Category</option>
                             {categoryData?.data?.result?.map((category: any) => (
-                                <option key={category._id} value={category._id}>{category.name}</option>
+                                <option key={category._id} value={category._id}>
+                                    {category.name}
+                                </option>
                             ))}
                         </select>
                     </div>
 
                     <div>
-                        <label className="block text-sm mb-1 text-gray-300">Price</label>
+                        <label className="block text-sm mb-1 text-gray-300">Price (bdt)</label>
                         <input
                             type="number"
                             name="price"
@@ -198,6 +216,21 @@ export default function CreateProduct() {
                         <label className="text-sm text-gray-300">In Stock</label>
                     </div>
 
+                    <div>
+                        <label className="block text-sm mb-1 text-gray-300">Gender</label>
+                        <select
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md"
+                        >
+                            <option value="">Select Category</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
                     <div className="md:col-span-2">
                         <label className="block text-sm mb-1 text-gray-300">Short Description</label>
                         <input
@@ -209,16 +242,13 @@ export default function CreateProduct() {
                         />
                     </div>
 
-                    <div className="md:col-span-2">
+                    <div className="md:col-span-2 ">
                         <label className="block text-sm mb-1 text-gray-300">Full Description</label>
-                        <textarea
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            rows={4}
-                            className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md"
-                        />
+                        <div className="bg-gray-500"><Editor value={formData.description} onTextChange={hadleTextEditor} style={{ height: '320px' }} /></div>
                     </div>
+
+
+
 
                     <div className="md:col-span-2">
                         <label className="block text-sm mb-1 text-gray-300">Product Images</label>
@@ -289,6 +319,7 @@ export default function CreateProduct() {
                     </button>
                 </div>
             </form>
+
         </div>
     );
 }

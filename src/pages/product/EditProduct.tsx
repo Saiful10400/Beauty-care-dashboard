@@ -9,6 +9,7 @@ import {
 
 } from "../../redux/api";
 import { useParams } from "react-router";
+import { Editor, type EditorTextChangeEvent } from "primereact/editor";
 
 type ProductFormData = {
     name: string;
@@ -138,6 +139,10 @@ export default function EditProduct() {
         }
     };
 
+    // handle text editor.
+    const hadleTextEditor = (e: EditorTextChangeEvent) => {
+        setFormData({ ...formData, description: e.htmlValue || "" })
+    }
     return (
         <div className="px-4 py-6 md:px-16">
             <h2 className="text-3xl font-semibold text-white mb-6">Edit Product</h2>
@@ -178,7 +183,7 @@ export default function EditProduct() {
                             onChange={handleChange}
                             className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md"
                         >
-                           
+
                             {brandsData?.data?.result?.map((brand: any) => (
                                 <option key={brand._id} value={brand._id}>{brand.name}</option>
                             ))}
@@ -193,7 +198,7 @@ export default function EditProduct() {
                             onChange={handleChange}
                             className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md"
                         >
-                           
+
                             {categoriesData?.data?.result?.map((cat: any) => (
                                 <option key={cat._id} value={cat._id}>{cat.name}</option>
                             ))}
@@ -232,15 +237,11 @@ export default function EditProduct() {
                         />
                     </div>
 
-                    <div className="md:col-span-2">
+
+
+                    <div className="md:col-span-2 ">
                         <label className="block text-sm mb-1 text-gray-300">Full Description</label>
-                        <textarea
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            rows={4}
-                            className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md"
-                        />
+                        <div className="bg-gray-500"><Editor value={formData.description} onTextChange={hadleTextEditor} style={{ height: '320px' }} /></div>
                     </div>
 
                     <div className="md:col-span-2">
