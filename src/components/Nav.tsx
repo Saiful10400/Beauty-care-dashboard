@@ -12,6 +12,9 @@ import {
   Image,
   ClipboardList,
   Star,
+  Gift,
+  Percent,
+  Layers3,
 } from "lucide-react";
 import { useState, type JSX } from "react";
 import { NavLink } from "react-router";
@@ -19,7 +22,14 @@ import { NavLink } from "react-router";
 type MenuItem = {
   name: string;
   icon: JSX.Element;
-  children: { name: string; path: string; icon: JSX.Element }[];
+  children?: SubMenuItem[];
+};
+
+type SubMenuItem = {
+  name: string;
+  icon: JSX.Element;
+  path?: string;
+  children?: { name: string; path: string; icon: JSX.Element }[];
 };
 
 const menu: MenuItem[] = [
@@ -77,14 +87,49 @@ const menu: MenuItem[] = [
       { name: "Reviews", path: "/review", icon: <Table className="w-4 h-4" /> },
     ],
   },
+  {
+    name: "Offer",
+    icon: <Gift className="w-5 h-5" />,
+    children: [
+      {
+        name: "Combo Offer",
+        icon: <Layers3 className="w-4 h-4" />,
+        children: [
+          { name: "Create", path: "/offer/combo/create", icon: <PlusCircle className="w-4 h-4" /> },
+          { name: "Manage", path: "/offer/combo", icon: <Table className="w-4 h-4" /> },
+        ],
+      },
+      {
+        name: "Free Gift Offer",
+        icon: <Gift className="w-4 h-4" />,
+        children: [
+          { name: "Create", path: "/offer/free-gift/create", icon: <PlusCircle className="w-4 h-4" /> },
+          { name: "Manage", path: "/offer/free-gift", icon: <Table className="w-4 h-4" /> },
+        ],
+      },
+      {
+        name: "Discount",
+        icon: <Percent className="w-4 h-4" />,
+        children: [
+          { name: "Create", path: "/offer/discount/create", icon: <PlusCircle className="w-4 h-4" /> },
+          { name: "Manage", path: "/offer/discount", icon: <Table className="w-4 h-4" /> },
+        ],
+      },
+    ],
+  },
 ];
 
 export default function Nav() {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [nestedExpanded, setNestedExpanded] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleExpand = (name: string) => {
     setExpanded(expanded === name ? null : name);
+  };
+
+  const toggleNested = (name: string) => {
+    setNestedExpanded(nestedExpanded === name ? null : name);
   };
 
   return (
@@ -137,24 +182,66 @@ export default function Nav() {
                 )}
               </button>
 
-              {expanded === item.name && (
+              {expanded === item.name && item.children && (
                 <div className="ml-6 mt-1 space-y-1">
-                  {item.children.map((sub) => (
-                    <NavLink
-                      key={sub.name}
-                      to={sub.path}
-                      onClick={() => setSidebarOpen(false)}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${isActive
-                          ? "bg-gray-800 text-white"
-                          : "text-gray-300 hover:text-white hover:bg-gray-800"
-                        }`
-                      }
-                    >
-                      {sub.icon}
-                      {sub.name}
-                    </NavLink>
-                  ))}
+                  {item.children.map((sub) =>
+                    sub.children ? (
+                      <div key={sub.name}>
+                        <button
+                          onClick={() => toggleNested(sub.name)}
+                          className="flex justify-between items-center w-full px-2 py-1 rounded-md hover:bg-gray-800 transition"
+                        >
+                          <div className="flex items-center gap-2">
+                            {sub.icon}
+                            <span>{sub.name}</span>
+                          </div>
+                          {nestedExpanded === sub.name ? (
+                            <ChevronDown className="w-4 h-4" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4" />
+                          )}
+                        </button>
+
+                        {nestedExpanded === sub.name && (
+                          <div className="ml-4 mt-1 space-y-1">
+                            {sub.children.map((leaf) => (
+                              <NavLink
+                                key={leaf.name}
+                                to={leaf.path}
+                                onClick={() => setSidebarOpen(false)}
+                                className={({ isActive }) =>
+                                  `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${
+                                    isActive
+                                      ? "bg-gray-800 text-white"
+                                      : "text-gray-300 hover:text-white hover:bg-gray-800"
+                                  }`
+                                }
+                              >
+                                {leaf.icon}
+                                {leaf.name}
+                              </NavLink>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <NavLink
+                        key={sub.name}
+                        to={sub.path!}
+                        onClick={() => setSidebarOpen(false)}
+                        className={({ isActive }) =>
+                          `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${
+                            isActive
+                              ? "bg-gray-800 text-white"
+                              : "text-gray-300 hover:text-white hover:bg-gray-800"
+                          }`
+                        }
+                      >
+                        {sub.icon}
+                        {sub.name}
+                      </NavLink>
+                    )
+                  )}
                 </div>
               )}
             </div>

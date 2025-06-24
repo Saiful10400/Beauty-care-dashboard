@@ -16,6 +16,12 @@ import CreateBanner from "../pages/banner/CreateBanner";
 import Order from "../pages/order/Order";
 import CreateReview from "../pages/facebook-reviews(admin)/CreateReview";
 import Review from "../pages/facebook-reviews(admin)/Review";
+import CreateCombo from "../pages/offer/combo/CreateCombo";
+import Combo from "../pages/offer/combo/Combo";
+import FreeGift from "../pages/offer/freeGift/FreeGift";
+import CreateFreeGift from "../pages/offer/freeGift/CreateFreeGift";
+import CreateDiscount from "../pages/offer/discount/CreateDiscount";
+import Discount from "../pages/offer/discount/Discount";
 
 const routes = createBrowserRouter([
     {
@@ -64,6 +70,28 @@ const routes = createBrowserRouter([
             {
                 path: "settings", children: [
                     { path: "general", element: <General /> },
+                ]
+            },
+            {
+                path: "offer", children: [
+                    {
+                        path: "combo", children: [
+                            { index: true, element: <Combo /> },
+                            { path: "create", element: <CreateCombo /> },
+                        ]
+                    },
+                    {
+                        path: "free-gift", children: [
+                            { index: true, element: <FreeGift /> },
+                            { path: "create", element: <CreateFreeGift /> },
+                        ]
+                    },
+                    {
+                        path: "discount", children: [
+                            { index: true, element: <Discount /> },
+                            { path: "create", element: <CreateDiscount /> },
+                        ]
+                    },
                 ]
             },
         ]
