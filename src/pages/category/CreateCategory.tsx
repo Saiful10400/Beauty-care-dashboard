@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { uploadToImgbb } from "../../utils/uploadToImgbb";
 import { useCreateCategoryMutation } from "../../redux/api";
+import generateSlug from "../../utils/generateSlug";
 
 type CategoryFormData = {
   name: string;
@@ -70,7 +71,7 @@ export default function CreateCategory() {
 
     const payload = {
       name: formData.name,
-      slug: formData.slug,
+      slug: generateSlug(formData.name),
       description: formData.description,
       isFeatured: formData.isFeatured,
       imageUrl,
@@ -113,10 +114,9 @@ export default function CreateCategory() {
             <input
               type="text"
               name="slug"
-              value={formData.slug}
-              onChange={handleChange}
+              value={generateSlug(formData.name)}
               required
-              disabled={uploading}
+              disabled={true}
               className="w-full bg-[#3b3f47] border border-gray-600 rounded-md px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50"
             />
           </div>

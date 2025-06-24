@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import "primereact/resources/themes/lara-light-teal/theme.css"
+import "primereact/resources/themes/bootstrap4-light-blue/theme.css"
 import { Provider } from 'react-redux'
 import store from './redux/store/index.ts'
 import { RouterProvider } from 'react-router'
