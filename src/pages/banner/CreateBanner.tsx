@@ -190,7 +190,7 @@ export default function CreateBanner() {
                                 {offersLoading ? (
                                     <option disabled>Loading...</option>
                                 ) : (
-                                    offers?.map((offer: any) => (
+                                    offers?.map((offer:{_id:string,title:string}) => (
                                         <option key={offer._id} value={offer._id}>
                                             {offer.title}
                                         </option>

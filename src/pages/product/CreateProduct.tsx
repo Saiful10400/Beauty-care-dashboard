@@ -167,7 +167,7 @@ export default function CreateProduct() {
                             className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md"
                         >
                             <option value="">Select Brand</option>
-                            {brandData?.data?.result?.map((brand: any) => (
+                            {brandData?.data?.result?.map((brand: { _id: string, name: string }) => (
                                 <option key={brand._id} value={brand._id}>
                                     {brand.name}
                                 </option>
@@ -185,7 +185,7 @@ export default function CreateProduct() {
                             className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md"
                         >
                             <option value="">Select Category</option>
-                            {categoryData?.data?.result?.map((category: any) => (
+                            {categoryData?.data?.result?.map((category: { _id: string, name: string }) => (
                                 <option key={category._id} value={category._id}>
                                     {category.name}
                                 </option>

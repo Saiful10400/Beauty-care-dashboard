@@ -17,7 +17,7 @@ export default function Review() {
 
         try {
             setDeletingId(id);
-            await deleteReview({id}).unwrap();
+            await deleteReview({ id }).unwrap();
             refetch();
         } catch (error) {
             console.error("Failed to delete review", error);
@@ -35,7 +35,7 @@ export default function Review() {
                 <p className="text-white">Loading reviews...</p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {data?.data?.map((review:any) => (
+                    {data?.data?.map((review: { _id: string, profileImageUrl: string, customerName: string, reviewDate: string, isVisible: boolean, message: string }) => (
                         <div
                             key={review._id}
                             className="bg-[#2f3640] text-white rounded-lg shadow p-4 flex flex-col gap-3"
@@ -59,8 +59,8 @@ export default function Review() {
                             <div className="flex justify-between items-center mt-2">
                                 <span
                                     className={`text-xs font-semibold px-2 py-1 rounded ${review.isVisible
-                                            ? "bg-green-700 text-green-100"
-                                            : "bg-gray-600 text-gray-300"
+                                        ? "bg-green-700 text-green-100"
+                                        : "bg-gray-600 text-gray-300"
                                         }`}
                                 >
                                     {review.isVisible ? "Visible" : "Hidden"}

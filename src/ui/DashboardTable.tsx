@@ -9,6 +9,7 @@ import type { TtableData } from "../types";
 import {
   useGetBrandsQuery,
   useGetCategoriesQuery,
+  useGetComboOffersQuery,
   useGetProductQuery,
 } from "../redux/api";
 
@@ -32,6 +33,9 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
     fetcherFunction = useGetCategoriesQuery;
   } else if (data.name === "product") {
     fetcherFunction = useGetProductQuery;
+
+  } else if (data.name === "Combo-offer") {
+    fetcherFunction = useGetComboOffersQuery;
   } else {
     return (
       <div className="text-center py-10 text-white">
@@ -45,7 +49,7 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
   const fetchedData = fetcherFunction(pagination);
   const totalPage = Math.ceil(fetchedData?.data?.data?.total / 10);
 
-  const typeFormate = (key: string, item: any) => {
+  const typeFormate = (key: string, item: { [key: string]: string }) => {
     if (key === "logoUrl" || key === "imageUrl") {
       return (
         <td className="py-3 px-2 sm:px-4" key={key}>
@@ -103,6 +107,13 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
         </td>
       );
     }
+    else if (key === "edit" && data.name === "Combo-offer") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          <TableEditCell target="Combo-offer" id={item._id} />
+        </td>
+      );
+    }
     else if (key === "updated" || key === "created") {
       return (
         <td className="py-3 px-2 sm:px-4" key={key}>
@@ -150,7 +161,7 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
           </thead>
 
           <tbody className="text-gray-200">
-            {fetchedData?.data?.data?.result?.map((item: any) => (
+            {fetchedData?.data?.data?.result?.map((item: { brandId: string, categoryId: string }) => (
               <tr
                 key={item.brandId || item.categoryId}
                 className="border-b border-gray-700 hover:bg-gray-700 transition-colors duration-150"

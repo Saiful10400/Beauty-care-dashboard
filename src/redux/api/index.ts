@@ -13,6 +13,7 @@ export const baseApi = createApi({
     "general",
     "banner",
     "facebook-reveiw",
+    "combo-Offer",
   ],
 
   endpoints: (builder) => ({
@@ -203,10 +204,9 @@ export const baseApi = createApi({
 
     // Update general settings
     deleteFacebookReview: builder.mutation({
-      query: ({id}) => ({
+      query: ({ id }) => ({
         url: `/facebook-review/delete/${id}`,
         method: "DELETE",
-       
       }),
       invalidatesTags: ["facebook-reveiw"],
     }),
@@ -218,6 +218,34 @@ export const baseApi = createApi({
         body: data,
       }),
       invalidatesTags: ["facebook-reveiw"],
+    }),
+
+    // ======================== Offers ========================
+
+    // Get facebook reviews
+    getComboOffers: builder.query({
+      query: ({ offset, limit }) =>
+        `/offer/combo-offer/get?offset=${offset}&limit=${limit}`,
+      providesTags: ["combo-Offer"],
+    }),
+
+    // delete general settings
+    deleteCombo: builder.mutation({
+      query: (id) => ({
+        url: `/offer/combo-offer/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["combo-Offer"],
+    }),
+
+    // Create combo-offer
+    createComboOffer: builder.mutation({
+      query: (data) => ({
+        url: "/offer/combo-offer/create",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["combo-Offer"],
     }),
   }),
 });
@@ -258,4 +286,9 @@ export const {
   useGetFacebookReviewsQuery,
   useCreateFacebookReviewMutation,
   useDeleteFacebookReviewMutation,
+
+  // facebook-review
+  useGetComboOffersQuery,
+  useCreateComboOfferMutation,
+  useDeleteComboMutation,
 } = baseApi;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useCreateBrandMutation, useGetBrandsQuery, useGetProductQuery } from "../../../redux/api";
+import { useCreateComboOfferMutation, useGetProductQuery } from "../../../redux/api";
 import { MultiSelect, type MultiSelectChangeEvent } from "primereact/multiselect";
 import type { TProduct } from "../../../types";
-import { Editor, type EditorSelectionChangeEvent, type EditorTextChangeEvent } from "primereact/editor";
+import { Editor, type EditorTextChangeEvent } from "primereact/editor";
 import { uploadToImgbb } from "../../../utils/uploadToImgbb";
 import generateSlug from "../../../utils/generateSlug";
 
@@ -39,7 +39,7 @@ export default function CreateCombo() {
         }))
     }, [selectedProduct])
 
-    const [createComboOffer, { isLoading }] = useCreateBrandMutation();
+    const [createComboOffer, { isLoading }] = useCreateComboOfferMutation();
     const { data: products = [] } = useGetProductQuery({ offset: 0, limit: 2000 });
     const [uploading, setUploading] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -114,11 +114,11 @@ export default function CreateCombo() {
             inStock: formData.inStock,
             images: imageUrls,
         };
-console.log(payload)
+        console.log(payload)
 
 
         try {
-            await createProduct(payload).unwrap();
+            await createComboOffer(payload).unwrap();
             setSuccessMessage("Product created successfully!");
             clearForm();
         } catch {
@@ -162,6 +162,7 @@ console.log(payload)
                     <div>
                         <label className="block text-sm text-gray-300 mb-1">Combo Name</label>
                         <input
+                        onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
                             type="text"
                             value={formData.name}
                             className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md"
