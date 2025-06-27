@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://kbeauty-touch-server.vercel.app/api",
-    // baseUrl: "http://localhost:8000/api",
+    // baseUrl: "https://kbeauty-touch-server.vercel.app/api",
+    baseUrl: "http://localhost:8000/api",
   }),
   tagTypes: [
     "category",
@@ -109,8 +109,13 @@ export const baseApi = createApi({
 
     // Get all products
     getProduct: builder.query({
-      query: ({ offset, limit }) =>
-        `/product/get?offset=${offset}&limit=${limit}`,
+      query: (query) => {
+        const queryString = Object.entries(query)
+          .map((item) => item.join("="))
+          .join("&");
+
+        return `/product/get?${queryString}`;
+      },
       providesTags: ["product"],
     }),
 
@@ -247,6 +252,25 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["combo-Offer"],
     }),
+
+    // Create percentage-offer
+    createPercentageOffer: builder.mutation({
+      query: ({ percentage, ...rest }) => ({
+        url: `/offer/percentageOffer/create?percentage=${percentage}`,
+        method: "POST",
+        body: rest,
+      }),
+      invalidatesTags: ["product"],
+    }),
+
+    // delete percentege-offer
+    deletePercentageOffer: builder.mutation({
+      query: (id ) => ({
+        url: `offer/percentageOffer/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["product"],
+    }),
   }),
 });
 
@@ -287,8 +311,10 @@ export const {
   useCreateFacebookReviewMutation,
   useDeleteFacebookReviewMutation,
 
-  // facebook-review
+  // offer
   useGetComboOffersQuery,
   useCreateComboOfferMutation,
   useDeleteComboMutation,
+  useCreatePercentageOfferMutation,
+  useDeletePercentageOfferMutation,
 } = baseApi;

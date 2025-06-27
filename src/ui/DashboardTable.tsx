@@ -36,7 +36,11 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
 
   } else if (data.name === "Combo-offer") {
     fetcherFunction = useGetComboOffersQuery;
-  } else {
+  }
+  else if (data.name === "percentageOfferProducts") {
+    fetcherFunction = useGetProductQuery;
+  }
+  else {
     return (
       <div className="text-center py-10 text-white">
         <h1 className="text-2xl font-semibold">
@@ -46,7 +50,7 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
     );
   }
 
-  const fetchedData = fetcherFunction(pagination);
+  const fetchedData = fetcherFunction(data.name === "percentageOfferProducts" ? { ...pagination, haveOffer: true } : pagination);
   const totalPage = Math.ceil(fetchedData?.data?.data?.total / 10);
 
   const typeFormate = (key: string, item: { [key: string]: string }) => {
@@ -71,7 +75,15 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
           />
         </td>
       );
-    } else if (key === "isFeatured") {
+    }
+    else if (key === "discountAmount") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          <span>{((100 / Number(item.price)) * (Number(item.price) - Number(item.discountPrice))).toFixed(0)}%</span>
+        </td>
+      );
+    }
+    else if (key === "isFeatured") {
       return (
         <td className="py-3 px-2 sm:px-4" key={key}>
           {item[key] ? (
@@ -111,6 +123,13 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
       return (
         <td className="py-3 px-2 sm:px-4" key={key}>
           <TableEditCell target="Combo-offer" id={item._id} />
+        </td>
+      );
+    }
+    else if (key === "edit" && data.name === "percentageOfferProducts") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          <TableEditCell target="percentage Offer Product" id={item._id} />
         </td>
       );
     }
