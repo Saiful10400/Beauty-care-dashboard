@@ -60,3 +60,41 @@ export type TProduct = {
 };
 
 
+export type TGeneral = {
+  _id: string;
+  __v: number;
+  siteName: string;
+  logoUrl: string;
+  contactEmail: string;
+  phone: string;
+  address: string;
+  aboutUs: string;
+  createdAt: string;
+  updatedAt: string;
+  socialLinks: {
+    facebook: string;
+    instagram: string;
+  };
+  freeGift: {
+    applicable: boolean;
+    buyAbove: number;
+    product: {
+      _id: string;
+      name: string;
+      slug: string;
+      description: string;
+      shortDescription: string;
+      brandId: string;
+      categoryIds: string;
+      price: number;
+      discountPrice: number;
+      inStock: boolean;
+      images: string[];
+      tags: string[];
+      rating: number;
+      createdAt: string;
+      updatedAt: string;
+      haveOffer: boolean;
+    };
+  };
+};

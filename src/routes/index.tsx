@@ -19,9 +19,9 @@ import Review from "../pages/facebook-reviews(admin)/Review";
 import CreateCombo from "../pages/offer/combo/CreateCombo";
 import Combo from "../pages/offer/combo/Combo";
 import FreeGift from "../pages/offer/freeGift/FreeGift";
-import CreateFreeGift from "../pages/offer/freeGift/CreateFreeGift";
 import CreateDiscount from "../pages/offer/discount/CreateDiscount";
 import Discount from "../pages/offer/discount/Discount";
+import CreateFreeGift from "../pages/offer/freeGift/CreateFreeGift";
 
 const routes = createBrowserRouter([
     {

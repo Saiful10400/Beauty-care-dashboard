@@ -265,11 +265,31 @@ export const baseApi = createApi({
 
     // delete percentege-offer
     deletePercentageOffer: builder.mutation({
-      query: (id ) => ({
+      query: (id) => ({
         url: `offer/percentageOffer/delete/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["product"],
+    }),
+
+    // Create free gift offer
+    creteFreeOfferGift: builder.mutation({
+      query: (body) => ({
+        url: `/offer/freeGift/update`,
+        method: "PUT",
+        body: body,
+      }),
+      invalidatesTags: ["general"],
+    }),
+
+    // delete free gift offer
+    deleteFreeOfferGift: builder.mutation({
+      query: () => ({
+        url: `/offer/freeGift/update`,
+        method: "PUT",
+        body: { applicable: false },
+      }),
+      invalidatesTags: ["general"],
     }),
   }),
 });
@@ -317,4 +337,6 @@ export const {
   useDeleteComboMutation,
   useCreatePercentageOfferMutation,
   useDeletePercentageOfferMutation,
+  useCreteFreeOfferGiftMutation,
+  useDeleteFreeOfferGiftMutation,
 } = baseApi;
