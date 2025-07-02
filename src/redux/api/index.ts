@@ -324,6 +324,16 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["order"],
     }),
+
+    // login handle.
+    loginHandle: builder.mutation({
+      query: (payload) => ({
+        url: `general/login`,
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["order"],
+    }),
   }),
 });
 
@@ -378,4 +388,7 @@ export const {
   useUpdateAOrderMutation,
   useGetAorderByIdQuery,
   useDeleteAOrderMutation,
+
+  // login handle.
+  useLoginHandleMutation,
 } = baseApi;

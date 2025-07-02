@@ -44,48 +44,91 @@ const menu: MenuItem[] = [
     name: "Settings",
     icon: <Settings className="w-5 h-5" />,
     children: [
-      { name: "General", path: "/settings/general", icon: <Settings className="w-4 h-4" /> },
+      {
+        name: "General",
+        path: "/settings/general",
+        icon: <Settings className="w-4 h-4" />,
+      },
     ],
   },
   {
     name: "Category",
     icon: <Package className="w-5 h-5" />,
     children: [
-      { name: "Create Category", path: "/category/create", icon: <PlusCircle className="w-4 h-4" /> },
-      { name: "Categories", path: "/category", icon: <Table className="w-4 h-4" /> },
+      {
+        name: "Create Category",
+        path: "/category/create",
+        icon: <PlusCircle className="w-4 h-4" />,
+      },
+      {
+        name: "Categories",
+        path: "/category",
+        icon: <Table className="w-4 h-4" />,
+      },
     ],
   },
   {
     name: "Brand",
     icon: <Tags className="w-5 h-5" />,
     children: [
-      { name: "Create Brand", path: "/brand/create", icon: <PlusCircle className="w-4 h-4" /> },
-      { name: "Brands", path: "/brand", icon: <Table className="w-4 h-4" /> },
+      {
+        name: "Create Brand",
+        path: "/brand/create",
+        icon: <PlusCircle className="w-4 h-4" />,
+      },
+      {
+        name: "Brands",
+        path: "/brand",
+        icon: <Table className="w-4 h-4" />,
+      },
     ],
   },
   {
     name: "Product",
     icon: <ShoppingBag className="w-5 h-5" />,
     children: [
-      { name: "Create Product", path: "/product/create", icon: <PlusCircle className="w-4 h-4" /> },
-      { name: "Products", path: "/product", icon: <Table className="w-4 h-4" /> },
+      {
+        name: "Create Product",
+        path: "/product/create",
+        icon: <PlusCircle className="w-4 h-4" />,
+      },
+      {
+        name: "Products",
+        path: "/product",
+        icon: <Table className="w-4 h-4" />,
+      },
     ],
   },
   {
     name: "Banner",
     icon: <Image className="w-5 h-5" />,
     children: [
-      { name: "Create Banner", path: "/banner/create", icon: <PlusCircle className="w-4 h-4" /> },
-      { name: "Banners", path: "/banner", icon: <Table className="w-4 h-4" /> },
+      {
+        name: "Create Banner",
+        path: "/banner/create",
+        icon: <PlusCircle className="w-4 h-4" />,
+      },
+      {
+        name: "Banners",
+        path: "/banner",
+        icon: <Table className="w-4 h-4" />,
+      },
     ],
   },
-
   {
     name: "Review",
     icon: <Star className="w-5 h-5" />,
     children: [
-      { name: "Create Review", path: "/review/create", icon: <PlusCircle className="w-4 h-4" /> },
-      { name: "Reviews", path: "/review", icon: <Table className="w-4 h-4" /> },
+      {
+        name: "Create Review",
+        path: "/review/create",
+        icon: <PlusCircle className="w-4 h-4" />,
+      },
+      {
+        name: "Reviews",
+        path: "/review",
+        icon: <Table className="w-4 h-4" />,
+      },
     ],
   },
   {
@@ -96,24 +139,48 @@ const menu: MenuItem[] = [
         name: "Combo Offer",
         icon: <Layers3 className="w-4 h-4" />,
         children: [
-          { name: "Create", path: "/offer/combo/create", icon: <PlusCircle className="w-4 h-4" /> },
-          { name: "Manage", path: "/offer/combo", icon: <Table className="w-4 h-4" /> },
+          {
+            name: "Create",
+            path: "/offer/combo/create",
+            icon: <PlusCircle className="w-4 h-4" />,
+          },
+          {
+            name: "Manage",
+            path: "/offer/combo",
+            icon: <Table className="w-4 h-4" />,
+          },
         ],
       },
       {
         name: "Free Gift Offer",
         icon: <Gift className="w-4 h-4" />,
         children: [
-          { name: "Create", path: "/offer/free-gift/create", icon: <PlusCircle className="w-4 h-4" /> },
-          { name: "Manage", path: "/offer/free-gift", icon: <Table className="w-4 h-4" /> },
+          {
+            name: "Create",
+            path: "/offer/free-gift/create",
+            icon: <PlusCircle className="w-4 h-4" />,
+          },
+          {
+            name: "Manage",
+            path: "/offer/free-gift",
+            icon: <Table className="w-4 h-4" />,
+          },
         ],
       },
       {
         name: "Discount",
         icon: <Percent className="w-4 h-4" />,
         children: [
-          { name: "Create", path: "/offer/discount/create", icon: <PlusCircle className="w-4 h-4" /> },
-          { name: "Manage", path: "/offer/discount", icon: <Table className="w-4 h-4" /> },
+          {
+            name: "Create",
+            path: "/offer/discount/create",
+            icon: <PlusCircle className="w-4 h-4" />,
+          },
+          {
+            name: "Manage",
+            path: "/offer/discount",
+            icon: <Table className="w-4 h-4" />,
+          },
         ],
       },
     ],
@@ -131,6 +198,11 @@ export default function Nav() {
 
   const toggleNested = (name: string) => {
     setNestedExpanded(nestedExpanded === name ? null : name);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    window.location.reload()
   };
 
   return (
@@ -165,87 +237,110 @@ export default function Nav() {
           </button>
         </div>
 
-        <nav className="flex-1 p-4 overflow-y-auto space-y-1">
-          {menu.map((item) => (
-            <div key={item.name}>
-              <button
-                onClick={() => toggleExpand(item.name)}
-                className="flex cursor-pointer justify-between items-center w-full px-3 py-2 rounded-md hover:bg-gray-800 transition"
-              >
-                <div className="flex items-center gap-2">
-                  {item.icon}
-                  <span>{item.name}</span>
-                </div>
-                {expanded === item.name ? (
-                  <ChevronDown className="w-4 h-4" />
-                ) : (
-                  <ChevronRight className="w-4 h-4" />
-                )}
-              </button>
-
-              {expanded === item.name && item.children && (
-                <div className="ml-6 mt-1 space-y-1">
-                  {item.children.map((sub) =>
-                    sub.children ? (
-                      <div key={sub.name}>
-                        <button
-                          onClick={() => toggleNested(sub.name)}
-                          className="flex cursor-pointer justify-between items-center w-full px-2 py-1 rounded-md hover:bg-gray-800 transition"
-                        >
-                          <div className="flex items-center gap-2">
-                            {sub.icon}
-                            <span>{sub.name}</span>
-                          </div>
-                          {nestedExpanded === sub.name ? (
-                            <ChevronDown className="w-4 h-4" />
-                          ) : (
-                            <ChevronRight className="w-4 h-4" />
-                          )}
-                        </button>
-
-                        {nestedExpanded === sub.name && (
-                          <div className="ml-4 mt-1 space-y-1">
-                            {sub.children.map((leaf) => (
-                              <NavLink
-                                key={leaf.name}
-                                to={leaf.path}
-                                onClick={() => setSidebarOpen(false)}
-                                className={({ isActive }) =>
-                                  `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${isActive
-                                    ? "bg-gray-800 text-white"
-                                    : "text-gray-300 hover:text-white hover:bg-gray-800"
-                                  }`
-                                }
-                              >
-                                {leaf.icon}
-                                {leaf.name}
-                              </NavLink>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <NavLink
-                        key={sub.name}
-                        to={sub.path!}
-                        onClick={() => setSidebarOpen(false)}
-                        className={({ isActive }) =>
-                          `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${isActive
-                            ? "bg-gray-800 text-white"
-                            : "text-gray-300 hover:text-white hover:bg-gray-800"
-                          }`
-                        }
-                      >
-                        {sub.icon}
-                        {sub.name}
-                      </NavLink>
-                    )
+        <div className="flex flex-col justify-between h-[calc(100%-64px)]">
+          <nav className="flex-1 p-4 overflow-y-auto space-y-1">
+            {menu.map((item) => (
+              <div key={item.name}>
+                <button
+                  onClick={() => toggleExpand(item.name)}
+                  className="flex cursor-pointer justify-between items-center w-full px-3 py-2 rounded-md hover:bg-gray-800 transition"
+                >
+                  <div className="flex items-center gap-2">
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </div>
+                  {expanded === item.name ? (
+                    <ChevronDown className="w-4 h-4" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4" />
                   )}
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
+                </button>
+
+                {expanded === item.name && item.children && (
+                  <div className="ml-6 mt-1 space-y-1">
+                    {item.children.map((sub) =>
+                      sub.children ? (
+                        <div key={sub.name}>
+                          <button
+                            onClick={() => toggleNested(sub.name)}
+                            className="flex cursor-pointer justify-between items-center w-full px-2 py-1 rounded-md hover:bg-gray-800 transition"
+                          >
+                            <div className="flex items-center gap-2">
+                              {sub.icon}
+                              <span>{sub.name}</span>
+                            </div>
+                            {nestedExpanded === sub.name ? (
+                              <ChevronDown className="w-4 h-4" />
+                            ) : (
+                              <ChevronRight className="w-4 h-4" />
+                            )}
+                          </button>
+
+                          {nestedExpanded === sub.name && (
+                            <div className="ml-4 mt-1 space-y-1">
+                              {sub.children.map((leaf) => (
+                                <NavLink
+                                  key={leaf.name}
+                                  to={leaf.path}
+                                  onClick={() => setSidebarOpen(false)}
+                                  className={({ isActive }) =>
+                                    `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${isActive
+                                      ? "bg-gray-800 text-white"
+                                      : "text-gray-300 hover:text-white hover:bg-gray-800"
+                                    }`
+                                  }
+                                >
+                                  {leaf.icon}
+                                  {leaf.name}
+                                </NavLink>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <NavLink
+                          key={sub.name}
+                          to={sub.path!}
+                          onClick={() => setSidebarOpen(false)}
+                          className={({ isActive }) =>
+                            `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${isActive
+                              ? "bg-gray-800 text-white"
+                              : "text-gray-300 hover:text-white hover:bg-gray-800"
+                            }`
+                          }
+                        >
+                          {sub.icon}
+                          {sub.name}
+                        </NavLink>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </nav>
+
+          <button
+            onClick={handleLogout}
+            className="flex cursor-pointer items-center gap-2 w-full text-left text-red-400 hover:text-red-500 hover:bg-gray-800 px-4 py-3 border-t border-gray-800 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 002 2h3a2 2 0 002-2V7a2 2 0 00-2-2h-3a2 2 0 00-2 2v1"
+              />
+            </svg>
+            Logout
+          </button>
+        </div>
       </aside>
     </>
   );
