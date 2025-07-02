@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://kbeauty-touch-server.vercel.app/api",
-    // baseUrl: "http://localhost:8000/api",
+    // baseUrl: "https://kbeauty-touch-server.vercel.app/api",
+    baseUrl: "http://localhost:8000/api",
   }),
   tagTypes: [
     "category",
@@ -14,6 +14,7 @@ export const baseApi = createApi({
     "banner",
     "facebook-reveiw",
     "combo-Offer",
+    "order",
   ],
 
   endpoints: (builder) => ({
@@ -291,6 +292,29 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["general"],
     }),
+
+    // Get all order
+    getorders: builder.query({
+      query: ({ offset, limit }) =>
+        `/order/get?offset=${offset}&limit=${limit}`,
+      providesTags: ["order"],
+    }),
+
+    // Get order by ID
+    getAorderById: builder.query({
+      query: (id) => `/order/get/${id}`,
+      providesTags: ["order"],
+    }),
+
+    // Update brand
+    updateAOrder: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/order/update/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["order"],
+    }),
   }),
 });
 
@@ -339,4 +363,9 @@ export const {
   useDeletePercentageOfferMutation,
   useCreteFreeOfferGiftMutation,
   useDeleteFreeOfferGiftMutation,
+
+  //order.
+  useGetordersQuery,
+  useUpdateAOrderMutation,
+  useGetAorderByIdQuery
 } = baseApi;

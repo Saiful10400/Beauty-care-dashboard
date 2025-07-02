@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 import PrimaryButton from "./PrimaryButton";
 import TableEditCell from "./TableEditCell";
@@ -10,13 +10,16 @@ import {
   useGetBrandsQuery,
   useGetCategoriesQuery,
   useGetComboOffersQuery,
+  useGetordersQuery,
   useGetProductQuery,
 } from "../redux/api";
+import dateStringToDateTime from "../utils/DateStringToDateTime";
+import { useNavigate } from "react-router";
 
 const DashboardTable = ({ data }: { data: TtableData }) => {
   const headers = Object.keys(data.keyValue);
   const keys = Object.values(data.keyValue);
-
+  const move = useNavigate()
   const defaultPagination = { offset: 0, limit: 10 };
   const [pagination, setPagination] = useState(defaultPagination);
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +42,9 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
   }
   else if (data.name === "percentageOfferProducts") {
     fetcherFunction = useGetProductQuery;
+  }
+  else if (data.name === "order") {
+    fetcherFunction = useGetordersQuery;
   }
   else {
     return (
@@ -133,13 +139,46 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
         </td>
       );
     }
+
     else if (key === "updated" || key === "created") {
       return (
         <td className="py-3 px-2 sm:px-4" key={key}>
           {formateDate(item[key])}
         </td>
       );
-    } else {
+    }
+    else if (key === "createdAt") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          {dateStringToDateTime(item[key])}
+        </td>
+      );
+    }
+    else if (key === "isConfirmed") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          {item[key] ? <span className="text-green-400"><Check /></span > : <span className="text-red-400"><X /></span>}
+        </td>
+      );
+    }
+    else if (key === "isShipped") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          {item[key] ? <span className="text-green-400"><Check /></span > : <span className="text-red-400"><X /></span>}
+        </td>
+      );
+    }
+    else if (key === "customerPhone") {
+      return (
+        <td className="py-3 px-2 sm:px-4" key={key}>
+          <a onClick={(e) => e.stopPropagation()} href={`tel:+88${item[key]}`} className=" font-medium underline">
+            {item[key]}
+          </a>
+        </td>
+      );
+    }
+
+    else {
       return (
         <td className="py-3 px-2 sm:px-4 text-xs sm:text-sm" key={key}>
           {item[key]}
@@ -180,8 +219,14 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
           </thead>
 
           <tbody className="text-gray-200">
-            {fetchedData?.data?.data?.result?.map((item: { brandId: string, categoryId: string }) => (
-              <tr
+            {fetchedData?.data?.data?.result?.map((item: { brandId: string, categoryId: string, _id: string }) => (
+
+              data.name === "order" ? <tr onClick={() => move(item._id)}
+                key={item.brandId || item.categoryId}
+                className="border-b cursor-pointer border-gray-700 hover:bg-gray-700 transition-colors duration-150"
+              >
+                {keys.map((key) => typeFormate(key, item))}
+              </tr> : <tr
                 key={item.brandId || item.categoryId}
                 className="border-b border-gray-700 hover:bg-gray-700 transition-colors duration-150"
               >

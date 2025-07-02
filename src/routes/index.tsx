@@ -22,6 +22,7 @@ import FreeGift from "../pages/offer/freeGift/FreeGift";
 import CreateDiscount from "../pages/offer/discount/CreateDiscount";
 import Discount from "../pages/offer/discount/Discount";
 import CreateFreeGift from "../pages/offer/freeGift/CreateFreeGift";
+import OrderDetails from "../pages/order/OrderDetails";
 
 const routes = createBrowserRouter([
     {
@@ -58,6 +59,7 @@ const routes = createBrowserRouter([
             {
                 path: "order", children: [
                     { index: true, element: <Order /> },
+                    { path: ":id", element: <OrderDetails /> },
                 ]
             },
             {
