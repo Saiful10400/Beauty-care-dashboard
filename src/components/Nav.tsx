@@ -34,6 +34,13 @@ type SubMenuItem = {
 
 const menu: MenuItem[] = [
   {
+    name: "Order",
+    icon: <ClipboardList className="w-5 h-5" />,
+    children: [
+      { name: "Orders", path: "/order", icon: <Table className="w-4 h-4" /> },
+    ],
+  },
+  {
     name: "Settings",
     icon: <Settings className="w-5 h-5" />,
     children: [
@@ -72,13 +79,7 @@ const menu: MenuItem[] = [
       { name: "Banners", path: "/banner", icon: <Table className="w-4 h-4" /> },
     ],
   },
-  {
-    name: "Order",
-    icon: <ClipboardList className="w-5 h-5" />,
-    children: [
-      { name: "Orders", path: "/order", icon: <Table className="w-4 h-4" /> },
-    ],
-  },
+
   {
     name: "Review",
     icon: <Star className="w-5 h-5" />,
@@ -137,7 +138,7 @@ export default function Nav() {
       {/* Mobile top bar */}
       <div className="md:hidden sticky top-0 z-10 flex items-center justify-between bg-gray-900 text-white px-4 py-3 shadow">
         <h1 className="text-lg font-bold">Admin Dashboard</h1>
-        <button onClick={() => setSidebarOpen(true)}>
+        <button className="cursor-pointer" onClick={() => setSidebarOpen(true)}>
           <Menu className="w-6 h-6" />
         </button>
       </div>
@@ -145,7 +146,7 @@ export default function Nav() {
       {/* Backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden cursor-pointer"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -169,7 +170,7 @@ export default function Nav() {
             <div key={item.name}>
               <button
                 onClick={() => toggleExpand(item.name)}
-                className="flex justify-between items-center w-full px-3 py-2 rounded-md hover:bg-gray-800 transition"
+                className="flex cursor-pointer justify-between items-center w-full px-3 py-2 rounded-md hover:bg-gray-800 transition"
               >
                 <div className="flex items-center gap-2">
                   {item.icon}
@@ -189,7 +190,7 @@ export default function Nav() {
                       <div key={sub.name}>
                         <button
                           onClick={() => toggleNested(sub.name)}
-                          className="flex justify-between items-center w-full px-2 py-1 rounded-md hover:bg-gray-800 transition"
+                          className="flex cursor-pointer justify-between items-center w-full px-2 py-1 rounded-md hover:bg-gray-800 transition"
                         >
                           <div className="flex items-center gap-2">
                             {sub.icon}
@@ -210,10 +211,9 @@ export default function Nav() {
                                 to={leaf.path}
                                 onClick={() => setSidebarOpen(false)}
                                 className={({ isActive }) =>
-                                  `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${
-                                    isActive
-                                      ? "bg-gray-800 text-white"
-                                      : "text-gray-300 hover:text-white hover:bg-gray-800"
+                                  `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${isActive
+                                    ? "bg-gray-800 text-white"
+                                    : "text-gray-300 hover:text-white hover:bg-gray-800"
                                   }`
                                 }
                               >
@@ -230,10 +230,9 @@ export default function Nav() {
                         to={sub.path!}
                         onClick={() => setSidebarOpen(false)}
                         className={({ isActive }) =>
-                          `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${
-                            isActive
-                              ? "bg-gray-800 text-white"
-                              : "text-gray-300 hover:text-white hover:bg-gray-800"
+                          `flex items-center gap-2 text-sm px-3 py-1 rounded-md transition ${isActive
+                            ? "bg-gray-800 text-white"
+                            : "text-gray-300 hover:text-white hover:bg-gray-800"
                           }`
                         }
                       >

@@ -192,7 +192,7 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
       {/* Header */}
       <div className="flex justify-between border-b border-gray-700 py-4 px-4 sm:px-5">
         <h1 className="text-base font-bold">{data.tittle}</h1>
-        {data.mode !== "admin" && (
+        {data.mode !== "admin" && data.name!=="order"&& (
           <PrimaryButton
             className="text-[14px] font-semibold rounded-md px-4 py-2"
             route

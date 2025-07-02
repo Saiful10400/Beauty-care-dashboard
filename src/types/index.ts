@@ -98,3 +98,13 @@ export type TGeneral = {
     };
   };
 };
+
+
+export type TorderProduct = {
+  productId: string;
+  name: string;
+  price: number; // single price
+  quantity: number;
+  imageUrl: string;
+  haveOffer: boolean;
+};

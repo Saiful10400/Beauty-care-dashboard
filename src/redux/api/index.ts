@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://kbeauty-touch-server.vercel.app/api",
-    baseUrl: "http://localhost:8000/api",
+    baseUrl: "https://kbeauty-touch-server.vercel.app/api",
+    // baseUrl: "http://localhost:8000/api",
   }),
   tagTypes: [
     "category",
@@ -308,10 +308,19 @@ export const baseApi = createApi({
 
     // Update brand
     updateAOrder: builder.mutation({
-      query: ({ id, data }) => ({
+      query: ({ id, payload }) => ({
         url: `/order/update/${id}`,
         method: "PUT",
-        body: data,
+        body: payload,
+      }),
+      invalidatesTags: ["order"],
+    }),
+
+    // delete a order.
+    deleteAOrder: builder.mutation({
+      query: (id) => ({
+        url: `order/delete/${id}`,
+        method: "DELETE",
       }),
       invalidatesTags: ["order"],
     }),
@@ -367,5 +376,6 @@ export const {
   //order.
   useGetordersQuery,
   useUpdateAOrderMutation,
-  useGetAorderByIdQuery
+  useGetAorderByIdQuery,
+  useDeleteAOrderMutation,
 } = baseApi;

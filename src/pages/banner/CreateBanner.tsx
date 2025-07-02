@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCreateBannerMutation, useGetBrandsQuery, } from "../../redux/api";
+import { useCreateBannerMutation, } from "../../redux/api";
 import { uploadToImgbb } from "../../utils/uploadToImgbb";
 
 type BannerFormData = {
@@ -15,13 +15,13 @@ export default function CreateBanner() {
         title: "",
         imageFile: null,
         isActive: true,
-        type: "offer",
+        type: "page",
         asset: "",
     });
 
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [createBanner, { isLoading }] = useCreateBannerMutation();
-    const { data: offers, isLoading: offersLoading } = useGetBrandsQuery(null); // update on time.
+
 
     const [uploading, setUploading] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -45,6 +45,7 @@ export default function CreateBanner() {
         ) {
             setFormData((prev) => ({ ...prev, [target.name]: target.checked }));
         } else {
+            console.log({ [target.name]: target.value })
             setFormData((prev) => ({ ...prev, [target.name]: target.value }));
         }
     };
@@ -54,7 +55,7 @@ export default function CreateBanner() {
             title: "",
             imageFile: null,
             isActive: true,
-            type: "offer",
+            type: "page",
             asset: "",
         });
         setPreviewUrl(null);
@@ -85,6 +86,8 @@ export default function CreateBanner() {
             type: formData.type,
             asset: formData.asset,
         };
+
+
 
         try {
             await createBanner(payload).unwrap();
@@ -170,6 +173,7 @@ export default function CreateBanner() {
                             disabled={uploading}
                             className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                         >
+                            <option hidden value="">Select one</option>
                             <option value="offer">Offer</option>
                             <option value="page">Page</option>
                         </select>
@@ -181,21 +185,16 @@ export default function CreateBanner() {
                             <label className="block text-sm mb-1 text-gray-300">Select Offer</label>
                             <select
                                 name="asset"
+
                                 value={formData.asset}
                                 onChange={handleChange}
-                                disabled={uploading || offersLoading}
+                                disabled={uploading}
                                 className="w-full px-4 py-2 bg-[#3b3f47] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                             >
-                                <option value="">-- Choose Offer --</option>
-                                {offersLoading ? (
-                                    <option disabled>Loading...</option>
-                                ) : (
-                                    offers?.map((offer:{_id:string,title:string}) => (
-                                        <option key={offer._id} value={offer._id}>
-                                            {offer.title}
-                                        </option>
-                                    ))
-                                )}
+                                <option hidden value="">Select one</option>
+                                <option value="combo">Combo</option>
+                                <option value="discount">Discount</option>
+
                             </select>
                         </div>
                     ) : (
