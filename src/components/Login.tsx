@@ -27,7 +27,7 @@ export default function LoginPage() {
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-800 via-zinc-900 to-black px-4 py-8">
             <div className="w-full max-w-md bg-zinc-900/90 backdrop-blur p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-white text-center mb-4">
-                    Sign In
+                    Log In
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
