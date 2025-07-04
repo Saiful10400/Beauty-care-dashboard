@@ -56,7 +56,7 @@ const DashboardTable = ({ data }: { data: TtableData }) => {
     );
   }
 
-  const fetchedData = fetcherFunction(data.name === "percentageOfferProducts" ? { ...pagination, haveOffer: true } : pagination);
+  const fetchedData = fetcherFunction(data.name === "percentageOfferProducts" ? { ...pagination, haveOffers: true } : pagination);
   const totalPage = Math.ceil(fetchedData?.data?.data?.total / 10);
 
   const typeFormate = (key: string, item: { [key: string]: string }) => {
