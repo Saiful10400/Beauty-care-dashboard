@@ -253,6 +253,7 @@ export default function CreateProduct() {
                     <div className="md:col-span-2">
                         <label className="block text-sm mb-1 text-gray-300">Product Images</label>
                         <input
+                            required
                             type="file"
                             multiple
                             accept="image/*"

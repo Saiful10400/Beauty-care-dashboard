@@ -146,6 +146,7 @@ export default function CreateBrand() {
           <div>
             <label className="block text-sm mb-1 text-gray-300">Logo Upload</label>
             <input
+              required
               type="file"
               name="logoFile"
               accept="image/*"

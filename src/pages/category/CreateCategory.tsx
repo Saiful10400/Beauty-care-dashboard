@@ -136,6 +136,7 @@ export default function CreateCategory() {
           <div>
             <label className="block text-sm mb-1 text-gray-300">Image</label>
             <input
+              required
               type="file"
               name="imageFile"
               accept="image/*"

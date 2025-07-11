@@ -129,6 +129,7 @@ export default function CreateBanner() {
                             Upload banner <span className="text-gray-400">(Recommended: 1200×400 px)</span>
                         </label>
                         <input
+                            required
                             type="file"
                             name="imageFile"
                             accept="image/*"
