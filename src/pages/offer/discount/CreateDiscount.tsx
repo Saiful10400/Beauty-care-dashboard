@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCreatePercentageOfferMutation, useGetProductQuery } from "../../../redux/api";
 import { MultiSelect, type MultiSelectChangeEvent } from "primereact/multiselect";
 import type { TProduct } from "../../../types";
+import PercentToNumber from "../../../ui/PercentToNumber";
 
 
 
@@ -77,46 +78,49 @@ export default function CreateDiscount() {
     return (
         <div className="px-4 py-6 md:px-16">
             <h2 className="text-3xl font-semibold text-white mb-6">Create Discount Offer</h2>
-            <form
-                onSubmit={handleSubmit}
-                className="bg-[#2f3640] text-white rounded-lg shadow-xl p-6 w-full max-w-4xl"
-            >
-                <div className="space-y-4">
-                    <div  >
-                        <label className="block text-sm text-gray-300 mb-1">Select Products</label>
+            <div className="flex lg:flex-row flex-col gap-5">
+                <form
+                    onSubmit={handleSubmit}
+                    className="bg-[#2f3640] text-white rounded-lg shadow-xl p-6 w-full max-w-4xl"
+                >
+                    <div className="space-y-4">
+                        <div  >
+                            <label className="block text-sm text-gray-300 mb-1">Select Products</label>
 
 
-                        <MultiSelect value={formData.products} onChange={productSelectHandle} options={products?.data?.result} optionLabel="name"
-                            filter placeholder="Select Products" maxSelectedLabels={3} className="w-full text-black md:w-20rem bg-gray-400" />
+                            <MultiSelect value={formData.products} onChange={productSelectHandle} options={products?.data?.result} optionLabel="name"
+                                filter placeholder="Select Products" maxSelectedLabels={3} className="w-full text-black md:w-20rem bg-gray-400" />
 
 
+                        </div>
+
+                        <div>
+                            <label className="block text-sm text-gray-300 mb-1">Discount Percentage (%)</label>
+                            <input
+                                onChange={e => setFormData(p => ({ ...p, percentage: Number(e.target.value) }))}
+                                type="number"
+                                value={formData.percentage}
+                                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md"
+                            />
+                        </div>
+
+
+
+
+
+                        {successMessage && <p className="text-green-400 font-semibold">{successMessage}</p>}
+
+                        <button
+                            type="submit"
+                            disabled={isLoading || uploading}
+                            className="w-full bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition"
+                        >
+                            {(isLoading || uploading) ? "Submitting..." : "Submit"}
+                        </button>
                     </div>
-
-                    <div>
-                        <label className="block text-sm text-gray-300 mb-1">Discount Percentage (%)</label>
-                        <input
-                            onChange={e => setFormData(p => ({ ...p, percentage: Number(e.target.value) }))}
-                            type="number"
-                            value={formData.percentage}
-                            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md"
-                        />
-                    </div>
-
-
-
-
-
-                    {successMessage && <p className="text-green-400 font-semibold">{successMessage}</p>}
-
-                    <button
-                        type="submit"
-                        disabled={isLoading || uploading}
-                        className="w-full bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition"
-                    >
-                        {(isLoading || uploading) ? "Submitting..." : "Submit"}
-                    </button>
-                </div>
-            </form>
+                </form>
+                <PercentToNumber />
+            </div>
         </div>
     );
 }
